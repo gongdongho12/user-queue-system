@@ -1,2 +1,2 @@
-rootProject.name = "dongholab"
-include("dongholab-domain", "dongholab-api", "dongholab-batch", "dongholab-consumer")
+rootProject.name = "user-queue-system"
+include("uqs-domain", "uqs-api", "uqs-batch", "uqs-consumer")
