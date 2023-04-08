@@ -1,0 +1,41 @@
+name: Check task on PR
+
+on:
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Copy docker-compose file
+        run: cp ./tools/docker-compose.yml docker-compose.yml
+
+      - name: Start containers
+        run: docker-compose up -d
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17.0.6
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Flyway migrate
+        run: ./gradlew flywayMigrate
+
+      - name: Lint
+        run: ./gradlew ktlintCheck
+
+      - name: Test
+        run: SPRING_PROFILES_ACTIVE=test ./gradlew clean unitTest
+
+      - name: Build without Test, Lint
+        run: ./gradlew clean build -x test -x ktlintCheck

@@ -1,0 +1,9 @@
+server:
+  port: 8888
+  shutdown: graceful
+  compression:
+    enabled: true
+
+spring:
+  application:
+    name: dongholab-consumer

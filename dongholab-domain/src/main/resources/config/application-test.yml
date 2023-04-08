@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: dongholab-domain
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    master:
+      jdbcUrl: jdbc:mysql://localhost:3306/dongholab?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximumPoolSize: 20
+      maxLifetime: 30000
+      userName: dongholab
+      password: root
+    slave:
+      jdbcUrl: jdbc:mysql://localhost:3306/dongholab?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximumPoolSize: 20
+      maxLifetime: 30000
+      userName: dongholab
+      password: root
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: false
+        temp:
+          use_jdbc_metadata_defaults: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: create
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379

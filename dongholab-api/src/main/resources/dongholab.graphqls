@@ -1,0 +1,11 @@
+scalar CrTimestamp
+scalar CrJson
+
+type Query {
+    """ HelloWorld """
+    helloWorld: String!
+}
+
+schema {
+    query: Query
+}

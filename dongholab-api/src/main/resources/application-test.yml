@@ -1,0 +1,8 @@
+logging:
+  level:
+    root: info
+
+springdoc:
+  show-actuator: false
+  api-docs:
+    enabled: false

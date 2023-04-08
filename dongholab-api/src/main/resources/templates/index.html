@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang='en'>
+  <title>Dongholab API</title>
+  <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
+</head>
+<body>
+<h1>Dongholab API</h1>
+<hr />
+<h3>Spring Profile: <b th:text='${profile}'></b></h3>
+<h3>Contact ✉: <a th:href='@{mailto:{to}(to=${email})}'><span th:text='${email}'></span></a></h3>
+<hr />
+<h3>Bookmark ⭐</h3>
+<ul>
+  <li th:each='entry : ${bookmark}'>
+    <a th:href='${entry.value}'>
+      <b
+        style='text-transform: uppercase;'
+        th:text='${entry.key}'>
+      </b>
+    </a>
+  </li>
+</ul>
+</body>
+</html>

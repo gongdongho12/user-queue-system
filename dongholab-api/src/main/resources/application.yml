@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+
+dongholab:
+  author: gongdongho12@gmail.com
+  bookmark:
+    graphql: /graphiql
+    swagger: /swagger-ui/index.html
+
+spring:
+  application:
+    name: dongholab-api
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: true
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC
+
+dgs:
+  graphql:
+    schema-locations: classpath*:dongholab.graphqls
+    path: /graphql/**

@@ -1,0 +1,60 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: dongholab-domain
+  datasource:
+    master:
+      jdbcUrl: jdbc:mysql://localhost:3306/dongholab?useUnicode=yes&characterEncoding=UTF-8&rewriteBatchedStatements=true
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximumPoolSize: 50
+      maxLifetime: 30000
+      userName: dongholab
+      password: root
+    slave:
+      jdbcUrl: jdbc:mysql://localhost:3306/dongholab?useUnicode=yes&characterEncoding=UTF-8
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximumPoolSize: 50
+      maxLifetime: 30000
+      userName: dongholab
+      password: root
+  jpa:
+    database: mysql
+    open-in-view: false
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: ture
+      hibernate.use_sql_comments: false
+      hibernate.id.new_generator_mappings: false
+      hibernate.implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      hibernate.globally_quoted_identifiers: true
+      hibernate.globally_quoted_identifiers_skip_column_definitions: true
+      hibernate.default_batch_fetch_size: 1000
+      temp:
+        use_jdbc_metadata_defaults: false
+      org:
+        hibernate:
+          envers:
+            revision_field_name: rev_id
+            audit_table_suffix: _histories
+            store_data_at_delete: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+management.health.diskspace.enabled: false
+management.health.circuitbreakers.enabled: true
+management.health.ratelimiters.enabled: false
+management.metrics.tags.application: ${spring.application.name}
+management.metrics.distribution.percentiles-histogram.http.server.requests: true
+
+kafka:
+  dongholab:
+    bootstrap-servers: "http://localhost:9092"

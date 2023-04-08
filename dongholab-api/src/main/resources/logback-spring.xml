@@ -1,0 +1,84 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <springProperty scope="context" name="log_level" source="logging.level.root"/>
+    <springProperty scope="context" name="service_name" source="spring.application.name"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <prefix class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>[ZzL]</pattern>
+                </layout>
+            </prefix>
+
+            <providers>
+                <logLevel>
+                    <fieldName>log_level</fieldName>
+                </logLevel>
+                <timestamp>
+                    <fieldName>@timestamp</fieldName>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <threadName>
+                    <fieldName>thread</fieldName>
+                </threadName>
+                <loggerName>
+                    <fieldName>logger</fieldName>
+                </loggerName>
+                <mdc/>
+                <message/>
+                <stackTrace/>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "@e_idx": "service-dongholab",
+                        "tag": "${tag}",
+                        "service_name": "dongholab-api",
+                        "error_message":"%ex{0}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="SENTRY" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="local | test">
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="false">
+            <level value="DEBUG"/>
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <root level="${log_level}">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="alpha | beta | beta-rc | production">
+        <logger name="com.dongholab" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+
+        <logger name="org.springframework" additivity="false">
+            <level value="INFO"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+
+        <root level="${log_level}">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="SENTRY"/>
+        </root>
+    </springProfile>
+</configuration>

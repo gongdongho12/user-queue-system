@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    default: local
+  main:
+    web-application-type: none
+  datasource:
+    batch:
+      jdbcUrl: jdbc:mysql://localhost:3306/dongholab_batch_meta?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+      driverClassName: com.mysql.cj.jdbc.Driver
+      maximum-pool-size: 20
+      pool-name: SpringBatchHikariCP
+      max-lifetime: 35000
+      idle-timeout: 30000
+      userName: dongholab
+      password: root
+  application:
+    name: dongholab-batch
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+
+logging:
+  level:
+    root: info
+  config:
+    classpath:logback-spring.xml
