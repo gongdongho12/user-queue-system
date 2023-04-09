@@ -40,7 +40,6 @@ tasks.test {
 dependencies {
     api(project(":uqs-domain"))
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.amazonaws:aws-java-sdk-sts")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
     implementation("org.springframework.kafka:spring-kafka:3.0.5")
     implementation("io.projectreactor:reactor-core:3.4.2")

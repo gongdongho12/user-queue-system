@@ -1,6 +1,7 @@
 package com.dongholab.uqs.consumer.listener
 
 import com.dongholab.uqs.domain.configuration.KafkaTopics
+import com.dongholab.uqs.domain.configuration.KafkaTopics.TEST_V1
 import com.dongholab.uqs.domain.infrastructure.util.toJsonObject
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
@@ -18,7 +19,7 @@ class ProductUpdateConsumer(
 
     @KafkaListener(
         id = "test",
-        topics = [KafkaTopics.TEST_V1],
+        topics = [TEST_V1],
         concurrency = "1",
         containerFactory = "dongholabKafkaListenerContainerFactory"
     )

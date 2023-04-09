@@ -13,18 +13,18 @@ import org.springframework.test.context.TestConstructor
 @SpringBootTest(
     classes = [
         DefaultKafkaConfiguration::class,
-        com.dongholab.uqs.domain.producer.DefaultProducer::class
+        DefaultProducer::class
     ]
 )
 class DefaultProducerTest {
     @Autowired
-    lateinit var defaultProducer: com.dongholab.uqs.domain.producer.DefaultProducer
+    lateinit var defaultProducer: DefaultProducer
 
     @Test
     fun publishProductUpdate() {
         defaultProducer.publishKafka(
             topic = TEST_V1,
-            data = com.dongholab.uqs.domain.producer.TestEvent(
+            data = TestEvent(
                 1,
                 "HelloWorld"
             )
