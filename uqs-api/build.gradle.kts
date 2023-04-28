@@ -45,6 +45,7 @@ tasks.test {
 dependencies {
     api(project(":uqs-domain"))
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("com.amazonaws:aws-java-sdk-sts")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2")
