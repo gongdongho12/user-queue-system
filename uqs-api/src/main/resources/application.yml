@@ -26,3 +26,9 @@ dgs:
   graphql:
     schema-locations: classpath*:dongholab.graphqls
     path: /graphql/**
+
+jwt:
+  secretkey: test
+  expiration: 300000
+  refreshtoken:
+    expiration: 3600000
