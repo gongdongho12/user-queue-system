@@ -5,20 +5,20 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import java.security.Key
-import java.util.Date
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
+import java.security.Key
+import java.util.Date
 
 
 @Service
 class JwtService(
-    @Value("${jwt.secretkey}")
+    @Value("\${jwt.secretkey}")
     private val secretKey: String,
-    @Value("${jwt.expiration}")
+    @Value("\${jwt.expiration}")
     private val jwtExpiration: Long,
-    @Value("${jwt.refreshtoken.expiration}")
+    @Value("\${jwt.refreshtoken.expiration}")
     private val refreshExpiration: Long
 ) {
     fun extractUsername(token: String): String {
