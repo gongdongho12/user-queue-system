@@ -5,14 +5,13 @@ import com.dongholab.uqs.api.security.model.MemberUserDetails
 import com.dongholab.uqs.domain.member.Member
 import com.dongholab.uqs.domain.member.MemberJoinDto
 import com.dongholab.uqs.domain.member.MemberLoginDto
-import com.dongholab.uqs.domain.member.repository.MemberRepository
+import com.dongholab.uqs.domain.member.repository.mysql.MemberJpaRepository
 import com.dongholab.uqs.domain.token.Token
 import com.dongholab.uqs.domain.token.TokenType
-import com.dongholab.uqs.domain.token.repository.TokenRepository
+import com.dongholab.uqs.domain.token.repository.mysql.TokenJpaRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import java.io.IOException
 import org.apache.http.HttpHeaders
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -22,13 +21,13 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.logout.LogoutHandler
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
 import org.springframework.stereotype.Service
-
+import java.io.IOException
 
 @Service
 class MemberAuthService(
     private val passwordEncoder: PasswordEncoder,
-    private val memberRepository: MemberRepository,
-    private val tokenRepository: TokenRepository,
+    private val memberRepository: MemberJpaRepository,
+    private val tokenRepository: TokenJpaRepository,
     private val jwtService: JwtService,
     private val authenticationManager: AuthenticationManager
 ) : LogoutHandler, LogoutSuccessHandler {

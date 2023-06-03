@@ -1,8 +1,8 @@
-package com.dongholab.uqs.domain.member.repository
+package com.dongholab.uqs.domain.member.repository.mysql
 
 import com.dongholab.uqs.domain.member.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface MemberRepository: JpaRepository<Member, Long> {
+interface MemberJpaRepository : JpaRepository<Member, Long> {
     fun findByUserid(userId: String): Member?
 }

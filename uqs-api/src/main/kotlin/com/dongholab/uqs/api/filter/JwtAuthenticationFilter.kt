@@ -2,12 +2,11 @@ package com.dongholab.uqs.api.filter
 
 import com.dongholab.uqs.api.security.service.JwtService
 import com.dongholab.uqs.domain.token.TokenType
-import com.dongholab.uqs.domain.token.repository.TokenRepository
+import com.dongholab.uqs.domain.token.service.TokenService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import java.io.IOException
 import org.apache.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -15,13 +14,13 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-
+import java.io.IOException
 
 @Component
 class JwtAuthenticationFilter(
     private val jwtService: JwtService,
     private val userDetailService: UserDetailsService,
-    private val tokenRepository: TokenRepository
+    private val tokenService: TokenService
 ) : OncePerRequestFilter() {
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
@@ -40,7 +39,7 @@ class JwtAuthenticationFilter(
                     jwtService.extractUsername(jwtToken).let { userId ->
                         val userDetails = userDetailService.loadUserByUsername(userId)
                         val isTokenValid: Boolean =
-                            tokenRepository.findByToken(jwtToken)?.let { token -> !token.expired && !token.revoked }
+                            tokenService.findByToken(jwtToken)?.let { token -> !token.expired && !token.revoked }
                                 ?: false
                         if (jwtService.isTokenValid(jwtToken, userDetails) && isTokenValid) {
                             val authToken = UsernamePasswordAuthenticationToken(
