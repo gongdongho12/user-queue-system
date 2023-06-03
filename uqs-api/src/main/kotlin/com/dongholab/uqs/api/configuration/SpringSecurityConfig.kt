@@ -28,7 +28,16 @@ class SpringSecurityConfig(
             csrf().disable().cors().disable()
                 .authorizeHttpRequests { request ->
                     request
-                        .requestMatchers("/hello", "/eks-hello", "/images/**", "/auth/*").permitAll()
+                        .requestMatchers(
+                            "/",
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/hello",
+                            "/eks-hello",
+                            "/images/**",
+                            "/auth/*"
+                        )
+                        .permitAll()
                         .anyRequest().authenticated()
                         .and()
                         .sessionManagement()
