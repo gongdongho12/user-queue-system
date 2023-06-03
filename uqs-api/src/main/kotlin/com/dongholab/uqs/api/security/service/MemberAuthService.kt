@@ -43,7 +43,7 @@ class MemberAuthService(
     }
 
     private fun validateDuplicateMember(member: Member) {
-        memberRepository.findByUserid(member.userId).let {
+        memberRepository.findByUserId(member.userId).let {
             throw IllegalStateException("이미 존재하는 아이디 입니다")
         }
     }
@@ -55,7 +55,7 @@ class MemberAuthService(
                 memberLogin.password
             )
         )
-        val member = memberRepository.findByUserid(memberLogin.userId)
+        val member = memberRepository.findByUserId(memberLogin.userId)
             ?: throw throw IllegalStateException("아이디가 존재하지 않습니다")
         val userDetails = MemberUserDetails(member)
         val jwtToken: String = jwtService.generateToken(userDetails)
@@ -98,7 +98,7 @@ class MemberAuthService(
         }
         val refreshToken = authHeader.substring(tokenPrefix.length)
         jwtService.extractUsername(refreshToken).let { userId ->
-            memberRepository.findByUserid(userId)?.let { member ->
+            memberRepository.findByUserId(userId)?.let { member ->
                 val userDetails = MemberUserDetails(member)
                 if (jwtService.isTokenValid(refreshToken, userDetails)) {
                     val accessToken: String = jwtService.generateToken(userDetails)

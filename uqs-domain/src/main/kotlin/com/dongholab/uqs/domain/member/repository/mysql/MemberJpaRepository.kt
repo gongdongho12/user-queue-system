@@ -4,5 +4,5 @@ import com.dongholab.uqs.domain.member.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberJpaRepository : JpaRepository<Member, Long> {
-    fun findByUserid(userId: String): Member?
+    fun findByUserId(userId: String): Member?
 }

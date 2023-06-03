@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service
 @Service
 class MemberService(private val memberJpaRepository: MemberJpaRepository) {
     fun findByUserid(userId: String): Member? {
-        return memberJpaRepository.findByUserid(userId)
+        return memberJpaRepository.findByUserId(userId)
     }
 }
