@@ -1,4 +1,4 @@
-package com.dongholab.uqs.domain.ticket.repository
+package com.dongholab.uqs.domain.ticket.repository.mysql
 
 import com.dongholab.uqs.domain.ticket.Ticket
 import org.springframework.data.jpa.repository.JpaRepository

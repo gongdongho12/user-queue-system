@@ -1,7 +1,7 @@
 package com.dongholab.uqs.domain.ticket.service
 
 import com.dongholab.uqs.domain.ticket.Ticket
-import com.dongholab.uqs.domain.ticket.repository.TicketJpaRepository
+import com.dongholab.uqs.domain.ticket.repository.mysql.TicketJpaRepository
 import org.springframework.stereotype.Service
 
 @Service
