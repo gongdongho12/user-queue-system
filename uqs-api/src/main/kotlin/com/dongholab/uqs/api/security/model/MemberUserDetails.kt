@@ -33,4 +33,6 @@ class MemberUserDetails(private val member: Member) : UserDetails {
     override fun isEnabled(): Boolean {
         return true
     }
+
+    fun getId() = member.id
 }

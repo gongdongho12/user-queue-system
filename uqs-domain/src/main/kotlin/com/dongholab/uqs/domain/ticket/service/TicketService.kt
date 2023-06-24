@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class TicketService(private val ticketRepository: TicketJpaRepository) {
-    fun saveTicket(): Ticket {
-        return ticketRepository.save(Ticket("test"))
+    fun saveTicket(value: String): Ticket {
+        return ticketRepository.save(Ticket(value))
     }
 }
