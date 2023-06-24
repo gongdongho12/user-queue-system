@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
     classes = [
         TestBatchConfig::class,
         BatchDataSourceConfiguration::class,
-        DongholabBatchApplication::class
+        UqsBatchApplication::class
     ]
 )
 @ActiveProfiles("test")
