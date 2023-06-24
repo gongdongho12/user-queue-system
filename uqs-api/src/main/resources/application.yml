@@ -29,6 +29,6 @@ dgs:
 
 jwt:
   secretkey: userqueuesystemtestkeyabcd1234userqueuesystemtestkeyabcd1234userqueuesystemtestkeyabcd1234
-  expiration: 300000
+  expiration: 3600000
   refreshtoken:
     expiration: 3600000

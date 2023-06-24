@@ -53,12 +53,14 @@ class JwtService(
         expiration: Long
     ): String {
         val currentDateTimeMills = System.currentTimeMillis()
+        val startDate = Date(currentDateTimeMills)
+        val expirationDate = Date(currentDateTimeMills + expiration)
         return Jwts
             .builder()
             .setClaims(extraClaims)
             .setSubject(userDetails.username)
-            .setIssuedAt(Date(currentDateTimeMills))
-            .setExpiration(Date(currentDateTimeMills + expiration))
+            .setIssuedAt(startDate)
+            .setExpiration(expirationDate)
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact()
     }
@@ -69,7 +71,9 @@ class JwtService(
     }
 
     private fun isTokenExpired(token: String): Boolean {
-        return extractExpiration(token).before(Date())
+        val current = Date()
+        val isExpire = extractExpiration(token).before(current)
+        return isExpire
     }
 
     private fun extractExpiration(token: String): Date {

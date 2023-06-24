@@ -31,7 +31,6 @@ class SpringSecurityConfig(
                         .requestMatchers(
                             "/",
                             "/swagger-ui/**",
-                            "/save",
                             "/v3/api-docs/**",
                             "/hello",
                             "/eks-hello",
