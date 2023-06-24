@@ -1,6 +1,5 @@
 package com.dongholab.uqs.consumer.listener
 
-import com.dongholab.uqs.domain.configuration.KafkaTopics
 import com.dongholab.uqs.domain.configuration.KafkaTopics.TEST_V1
 import com.dongholab.uqs.domain.infrastructure.util.toJsonObject
 import org.apache.kafka.clients.consumer.ConsumerRecord
