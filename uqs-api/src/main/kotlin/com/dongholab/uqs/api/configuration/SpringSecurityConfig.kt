@@ -32,6 +32,8 @@ class SpringSecurityConfig(
                             "/",
                             "/swagger-ui/**",
                             "/v3/api-docs/**",
+                            "/graphql/**",
+                            "/graphiql/**",
                             "/hello",
                             "/eks-hello",
                             "/images/**",
