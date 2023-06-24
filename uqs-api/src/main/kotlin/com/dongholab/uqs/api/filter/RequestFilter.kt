@@ -1,12 +1,12 @@
-package com.dongholab.uqs.api.configuration
+package com.dongholab.uqs.api.filter
 
 import com.dongholab.uqs.domain.log.CustomServletRequestWrapper
-import org.springframework.stereotype.Component
 import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.stereotype.Component
 
 @Component
 class RequestFilter : Filter {
