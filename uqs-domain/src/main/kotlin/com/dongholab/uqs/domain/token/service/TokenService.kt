@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class TokenService(private val tokenJpaRepository: TokenJpaRepository) {
-    fun findAllValidTokenByMember(id: Long): List<Token> {
-        return tokenJpaRepository.findAllValidTokenByMember(id)
+    fun findAllValidTokenByMember(userId: String): List<Token> {
+        return tokenJpaRepository.findAllValidTokenByMember(userId)
     }
 
     fun findByToken(token: String): Token? {

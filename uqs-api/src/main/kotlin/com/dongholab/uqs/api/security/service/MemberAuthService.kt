@@ -9,7 +9,6 @@ import com.dongholab.uqs.domain.member.repository.mysql.MemberJpaRepository
 import com.dongholab.uqs.domain.token.Token
 import com.dongholab.uqs.domain.token.TokenType
 import com.dongholab.uqs.domain.token.repository.mysql.TokenJpaRepository
-import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.http.HttpHeaders
@@ -43,7 +42,7 @@ class MemberAuthService(
     }
 
     private fun validateDuplicateMember(member: Member) {
-        memberRepository.findByUserId(member.userId).let {
+        memberRepository.findByUserId(member.userId)?.let {
             throw IllegalStateException("이미 존재하는 아이디 입니다")
         }
     }
@@ -65,7 +64,7 @@ class MemberAuthService(
         return AuthenticationResponse(jwtToken, refreshToken)
     }
 
-    private fun saveUserToken(member: Member, jwtToken: String) {
+    private fun saveUserToken(member: Member, jwtToken: String): Token {
         val token = Token(
             member = member,
             token = jwtToken,
@@ -73,11 +72,11 @@ class MemberAuthService(
             expired = false,
             revoked = false
         )
-        tokenRepository.save(token)
+        return tokenRepository.save(token)
     }
 
     private fun revokeAllUserTokens(member: Member) {
-        val validUserTokens: List<Token> = tokenRepository.findAllValidTokenByMember(member.id!!)
+        val validUserTokens: List<Token> = tokenRepository.findAllValidTokenByMember(member.userId)
         if (validUserTokens.isEmpty()) return
         tokenRepository.saveAll(validUserTokens.map { token ->
             token.expired = true
@@ -86,15 +85,14 @@ class MemberAuthService(
         })
     }
 
-    @Throws(IOException::class)
     fun refreshToken(
         request: HttpServletRequest,
         response: HttpServletResponse
-    ) {
+    ): Token {
         val tokenPrefix = TokenType.BEARER.prefix.let { "$it " }
         val authHeader: String? = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (authHeader == null || !authHeader.startsWith(tokenPrefix)) {
-            return
+            throw IllegalStateException("헤더정보가 정확하지 않습니다")
         }
         val refreshToken = authHeader.substring(tokenPrefix.length)
         jwtService.extractUsername(refreshToken).let { userId ->
@@ -103,13 +101,11 @@ class MemberAuthService(
                 if (jwtService.isTokenValid(refreshToken, userDetails)) {
                     val accessToken: String = jwtService.generateToken(userDetails)
                     revokeAllUserTokens(member)
-                    saveUserToken(member, accessToken)
-                    val authResponse = AuthenticationResponse(accessToken, refreshToken)
-                    ObjectMapper().writeValue(response.getOutputStream(), authResponse)
+                    return saveUserToken(member, accessToken)
                 }
             }
-
         }
+        throw IOException("토큰 정보가 존재하지 않습니다")
     }
 
     override fun logout(

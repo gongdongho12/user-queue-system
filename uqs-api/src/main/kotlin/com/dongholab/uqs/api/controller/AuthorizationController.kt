@@ -4,14 +4,15 @@ import com.dongholab.uqs.api.controller.dto.AuthenticationResponse
 import com.dongholab.uqs.api.security.service.MemberAuthService
 import com.dongholab.uqs.domain.member.MemberJoinDto
 import com.dongholab.uqs.domain.member.MemberLoginDto
+import com.dongholab.uqs.domain.token.Token
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import java.io.IOException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.io.IOException
 
 
 @RestController
@@ -32,7 +33,7 @@ class AuthorizationController(
     @PostMapping("/authenticate")
     fun authenticate(
         @RequestBody memberLogin: MemberLoginDto
-    ): ResponseEntity<AuthenticationResponse?>? {
+    ): ResponseEntity<AuthenticationResponse> {
         return ResponseEntity.ok(memberAuthService.authenticate(memberLogin))
     }
 
@@ -41,7 +42,7 @@ class AuthorizationController(
     fun refreshToken(
         request: HttpServletRequest,
         response: HttpServletResponse
-    ) {
-        memberAuthService.refreshToken(request, response)
+    ): ResponseEntity<Token> {
+        return ResponseEntity.ok(memberAuthService.refreshToken(request, response))
     }
 }

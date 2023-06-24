@@ -28,7 +28,7 @@ dgs:
     path: /graphql/**
 
 jwt:
-  secretkey: test
+  secretkey: userqueuesystemtestkeyabcd1234userqueuesystemtestkeyabcd1234userqueuesystemtestkeyabcd1234
   expiration: 300000
   refreshtoken:
     expiration: 3600000
