@@ -4,6 +4,7 @@ import com.dongholab.uqs.api.security.model.MemberUserDetails
 import com.dongholab.uqs.domain.configuration.KafkaTopics
 import com.dongholab.uqs.domain.producer.DefaultProducer
 import com.dongholab.uqs.domain.ticket.Ticket
+import com.dongholab.uqs.domain.ticket.dto.toDTO
 import com.dongholab.uqs.domain.ticket.service.TicketService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -17,20 +18,22 @@ class TicketController(
     private val ticketService: TicketService,
     private val defaultProducer: DefaultProducer
 ) {
-    @GetMapping("/save")
+    @GetMapping("/save/enrolment")
     fun save(authentication: Authentication): ResponseEntity<Ticket> {
         val userDetails = authentication.principal as MemberUserDetails
+        val userId = userDetails.getId()!!
         val ticketMessage = "HelloWorld"
-        val ticket = ticketService.saveTicket(ticketMessage)
-        defaultProducer.publishKafka(
-            topic = KafkaTopics.TEST_V1,
-            data = TestEvent(
-                userDetails.getId()!!,
-                ticketMessage
-            )
+        val enrolmentTicket = Ticket(
+            "enrolment",
+            ticketMessage,
+            userId
         )
-        return ResponseEntity.ok(ticket)
+
+        val savedTicket = ticketService.saveTicket(enrolmentTicket)
+        defaultProducer.publishKafka(
+            topic = KafkaTopics.TICKET,
+            data = savedTicket.toDTO()
+        )
+        return ResponseEntity.ok(savedTicket)
     }
 }
-
-data class TestEvent(val id: Long, val message: String)

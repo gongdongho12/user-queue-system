@@ -1,7 +1,8 @@
 package com.dongholab.uqs.consumer.listener
 
-import com.dongholab.uqs.domain.configuration.KafkaTopics.TEST_V1
+import com.dongholab.uqs.domain.configuration.KafkaTopics.TICKET
 import com.dongholab.uqs.domain.infrastructure.util.toJsonObject
+import com.dongholab.uqs.domain.ticket.dto.TicketDTO
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
@@ -17,9 +18,9 @@ class ProductUpdateConsumer(
     private val logger = LoggerFactory.getLogger(this::class.simpleName)
 
     @KafkaListener(
-        id = "test",
-        topics = [TEST_V1],
-        concurrency = "1",
+        id = "ticket",
+        topics = [TICKET],
+        concurrency = "10",
         containerFactory = "dongholabKafkaListenerContainerFactory"
     )
     fun listen(records: List<ConsumerRecord<ByteArray, ByteArray>>) {
@@ -27,17 +28,17 @@ class ProductUpdateConsumer(
         logger.info("records.size=${records.size}, positions=$positions")
         records.forEach { record ->
             try {
-                val testEvent = deserialize(record)
-                logger.info("[${record.offset()}] Received Message - topic = ${record.topic()}, value = $testEvent")
-                consumeTest(testEvent)
+                val ticketEvent = deserialize(record)
+                logger.info("[${record.offset()}] Received Message - topic = ${record.topic()}, value = $ticketEvent")
+                consumeTest(ticketEvent)
             } catch (e: Throwable) {
                 logger.warn("TIME-OUT) ${records.size} ${e.message} ${record.offset()}")
             }
         }
     }
 
-    private fun deserialize(record: ConsumerRecord<ByteArray, ByteArray>): TestEvent {
-        return record.value().toJsonObject(TestEvent::class.java)
+    private fun deserialize(record: ConsumerRecord<ByteArray, ByteArray>): TicketDTO {
+        return record.value().toJsonObject(TicketDTO::class.java)
     }
 
     fun <T> consumeTest(data: T) {
@@ -47,5 +48,3 @@ class ProductUpdateConsumer(
         )
     }
 }
-
-data class TestEvent(val id: Long, val message: String)

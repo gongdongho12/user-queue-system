@@ -11,6 +11,8 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "tickets")
 class Ticket(
-    @Column(nullable = false) var title: String,
+    @Column(nullable = false) var key: String,
+    @Column(nullable = false) var data: String,
+    @Column(nullable = false) val userId: Long,
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0L
 ) : BaseTimeEntity()
