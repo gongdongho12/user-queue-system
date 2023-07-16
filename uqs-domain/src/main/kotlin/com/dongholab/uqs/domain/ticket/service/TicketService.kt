@@ -9,9 +9,4 @@ class TicketService(private val ticketRepository: TicketJpaRepository) {
     fun saveTicket(ticket: Ticket): Ticket {
         return ticketRepository.save(ticket)
     }
-
-    fun saveTicket(key: String, data: String): Ticket {
-        val ticket = Ticket(key, data)
-        return saveTicket(ticket)
-    }
 }
